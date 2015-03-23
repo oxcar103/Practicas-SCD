@@ -7,7 +7,7 @@ using namespace std ;
 const int NUM_ITEMS = 103;
 const int TAM_VEC = 13;
 int buffer[TAM_VEC];
-int primera_libre = primera_ocupada = 0;
+int primera_ocupada, primera_libre = primera_ocupada = 0;
 
 int producir_dato(){
     static int contador = 1;
@@ -49,8 +49,8 @@ int main(){
     pthread_create(&t_consumidor, NULL, consumidor, NULL);
 
     // Esperamos a que acaben
-    pthread_join(hebra1,NULL);
-    pthread_join(hebra2,NULL);
+    pthread_join(t_productor,NULL);
+    pthread_join(t_consumidor,NULL);
 
     cout << "Fin.\n";
 
