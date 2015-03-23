@@ -26,7 +26,7 @@ unidades_o:=  $(addsuffix .o, $(basename $(unidades)))
 
 x:
 	@echo "--------------------------------------------------------"
-	@echo "SCD 13-14. Archivos de seminarios y prácticas (makefile)"
+	@echo "SCD 14-15. Archivos de seminarios y prácticas (makefile)"
 	@echo "--------------------------------------------------------"
 	@make --no-print-directory comp
 	./$(ejecutable)
