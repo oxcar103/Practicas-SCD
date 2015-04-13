@@ -57,6 +57,7 @@ void* consumidor(void*){
         consumir_dato(dato);
     }
 
+    return NULL;
 }
 
 int main(){
