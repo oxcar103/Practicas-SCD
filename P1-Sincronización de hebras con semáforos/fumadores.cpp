@@ -7,10 +7,10 @@
 
 using namespace std ;
 
-sem_t tabaco;
-sem_t papel;
-sem_t cerillas;
-sem_t mostrador;
+sem_t tabaco;       // Semáforo para indicar si hay tabaco
+sem_t papel;        // Semáforo para indicar si hay papel
+sem_t cerillas;     // Semáforo para indicar si hay cerillas
+sem_t mostrador;    // Semáforo para indicar si el mostrador está vacío
 
 // Función que simula la acción de fumar
 // como un retardo aleatorio de la hebra entre 0'1 y 2 segundos.
@@ -21,55 +21,73 @@ void fumar(){
     usleep(1000U*miliseg); // retraso bloqueado durante miliseg milisegundos
 }
 
+// Función para simular al fumador sin tabaco
 void * sin_tabaco(void *){
     while (true){
+        // Nos aseguramos de que hay tabaco
         sem_wait(&tabaco);
+        // Indicamos que el mostrador está vacío
         sem_post(&mostrador);
 
+        // Mostramos por pantalla que se ha recogido tabaco y va a fumar
         cout << "- Recogí tabaco, entro a fumar.\n";
 
         fumar();
 
+        // Mostramos por pantalla que ha terminado de fumar y espera recoger más tabaco
         cout << "- Terminé de fumar, me falta tabaco.\n";
     }
 
     return NULL;
 }
 
+// Función para simular al fumador sin papel
 void * sin_papel(void *){
     while (true){
+        // Nos aseguramos de que hay papel
         sem_wait(&papel);
+        // Indicamos que el mostrador está vacío
         sem_post(&mostrador);
 
+        // Mostramos por pantalla que se ha recogido papel y va a fumar
         cout << "- Recogí papel, entro a fumar.\n";
 
         fumar();
 
+        // Mostramos por pantalla que ha terminado de fumar y espera recoger más papel
         cout << "- Terminé de fumar, me falta papel.\n";
     }
 
     return NULL;
 }
 
+// Función para simular al fumador sin cerillas
 void * sin_cerillas(void *){
     while (true){
+        // Nos aseguramos de que hay cerillas
         sem_wait(&cerillas);
+        // Indicamos que el mostrador está vacío
         sem_post(&mostrador);
 
+        // Mostramos por pantalla que se ha recogido cerillas y va a fumar
         cout << "- Recogí cerillas, entro a fumar.\n";
 
         fumar();
 
+        // Mostramos por pantalla que ha terminado de fumar y espera recoger más cerillas
         cout << "- Terminé de fumar, me faltan cerillas.\n";
     }
 
     return NULL;
 }
 
+// Función para simular al estanquero
 void * estanquero(void *){
     while (true){
+        // Nos aseguramos de que el mostrador está vacío
         sem_wait(&mostrador);
 
+        // Indicamos qué pone el estanquero(tanto por pantalla como mediante los semáforos)
         cout << "El estanquero pone ";
 
         switch (rand()%3) {
