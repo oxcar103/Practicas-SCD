@@ -4,56 +4,68 @@
 
 using namespace std;
 
-const int NUM_ITEMS = 103;
-const int TAM_VEC = 13;
+const int NUM_ITEMS = 103;  // Número de elementos que se escribirán/leerán
+const int TAM_VEC = 13;     // Tamaño del buffer
 int buffer[TAM_VEC];
-int primera_ocupada, primera_libre = primera_ocupada = 0;
-sem_t acceso_a_buffer;
-sem_t buffer_con_elementos;
-sem_t buffer_con_espacio;
+int primera_ocupada, primera_libre = primera_ocupada = 0;   // Para indicar las posiciones donde leer y escribir
+sem_t acceso_a_buffer;       // Semáforo para asegurar que no se modifican varias posiciones del buffer a la vez
+sem_t buffer_con_elementos;  // Semáforo para asegurar que no se lee cuando no hay elementos
+sem_t buffer_con_espacio;    // Semáforo para asegurar que no se escribe cuando el buffer está lleno
 
+// Función para producir los elementos
 int producir_dato(){
     static int contador = 1;
     return contador++;
 }
 
+// Función para usar los elementos
 void consumir_dato(int dato){
     cout << "Dato recibido: " << dato << "\n";
 }
 
+// Función para producir y escribir los elementos
 void* productor(void*){
     for(int i = 0; i < NUM_ITEMS; i++){
         int dato = producir_dato();
 
-        // Insertamos dato en buffer
+        // Nos aseguramos de que podemos escribir
         sem_wait(&buffer_con_espacio);
+        // Nos aseguramos de que sólo nosotros accedemos al buffer
         sem_wait(&acceso_a_buffer);
 
+        // Insertamos el dato en el buffer y ajustamos la variable indicadora de posición para escribir
         buffer[primera_libre] = dato;
         primera_libre = (primera_libre+1) % TAM_VEC;
 
+        // Permitimos a otro acceder al buffer
         sem_post(&acceso_a_buffer);
+        // Indicamos que hay un nuevo elemento
         sem_post(&buffer_con_elementos);
     }
 
     return NULL;
 }
 
+// Función para leer y usar los elementos
 void* consumidor(void*){
     for(int i = 0; i < NUM_ITEMS; i++){
         int dato;
 
-        // Cogemos dato de buffer
+        // Nos aseguramos de que podemos leer
         sem_wait(&buffer_con_elementos);
+        // Nos aseguramos de que sólo nosotros accedemos al buffer
         sem_wait(&acceso_a_buffer);
 
+        // Cogemos el dato del buffer y ajustamos la variable indicadora de posición para leer
         dato = buffer[primera_ocupada];
         primera_ocupada = (primera_ocupada+1) % TAM_VEC;
 
+        // Permitimos a otro acceder al buffer
         sem_post(&acceso_a_buffer);
+        // Indicamos que se ha leido un elemento
         sem_post(&buffer_con_espacio);
 
-
+        // Usamos el dato
         consumir_dato(dato);
     }
 
