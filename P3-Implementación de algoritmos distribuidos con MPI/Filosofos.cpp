@@ -57,8 +57,8 @@ void Filosofo(int id, int nprocesos){
     }
 }
 
-void Tenedor(int id, int nprocesos){
-    int buf, filosofo;
+void Tenedor(int id){
+    int filosofo;
     MPI_Status status;
 
     while(true){
@@ -94,7 +94,7 @@ int main(int argc,char** argv ){
         if ((rank%2) == 0)  
             Filosofo(rank,size);    // Los pares son Filosofos 
         else
-            Tenedor(rank,size);     // Los impares son Tenedores 
+            Tenedor(rank);     // Los impares son Tenedores 
     }
 
     MPI_Finalize();
