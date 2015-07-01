@@ -73,7 +73,7 @@ void Tenedor(int id, int nprocesos){
         // Espera a que el filosofo suelte el tenedor...
         MPI_Recv(NULL, 0, MPI_INT, filosofo, SOLTAR, MPI_COMM_WORLD, &status);
 
-        cout << "Tenedor " << id << " recibe liberacion de filósofo " << filosofo << endl << flush; 
+        cout << "Tenedor " << id << " recibe liberación de filósofo " << filosofo << endl << flush; 
     }
 }
 
