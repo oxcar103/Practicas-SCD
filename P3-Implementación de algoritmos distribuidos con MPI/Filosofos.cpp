@@ -3,9 +3,9 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define SOLTAR 0
-#define COGER 1
-#define NUM_FILO 5
+#define COGER 0     // Tag de Coger
+#define SOLTAR 1    // Tag de Soltar
+#define NUM_FILO 5  // Número de Filósofos
 
 using namespace std;
 
@@ -15,23 +15,23 @@ void Filosofo(int id, int nprocesos){
 
     while(true){
         if(id == 0){    // Un proceso, por ejemplo el primero, los pide al revés para evitar interbloqueos
-            //Solicita tenedor derecho
+            // Solicita tenedor derecho
             cout << "Filósofo " << id << " solicita tenedor " << der << endl << flush;
 
             MPI_Ssend(NULL, 0, MPI_INT, der, COGER, MPI_COMM_WORLD);
 
-            //Solicita tenedor izquierdo
+            // Solicita tenedor izquierdo
             cout << "Filósofo " << id << " solicita tenedor " << izq << endl << flush;
 
             MPI_Ssend(NULL, 0, MPI_INT, izq, COGER, MPI_COMM_WORLD);
         }
         else{
-            //Solicita tenedor izquierdo
+            // Solicita tenedor izquierdo
             cout << "Filósofo " << id << " solicita tenedor " << izq << endl << flush;
 
             MPI_Ssend(NULL, 0, MPI_INT, izq, COGER, MPI_COMM_WORLD);
 
-            //Solicita tenedor derecho
+            // Solicita tenedor derecho
             cout << "Filósofo " << id << " solicita tenedor " << der << endl << flush;
 
             MPI_Ssend(NULL, 0, MPI_INT, der, COGER, MPI_COMM_WORLD);
@@ -41,12 +41,12 @@ void Filosofo(int id, int nprocesos){
 
         sleep((rand() % 3)+1);  // Comiendo
 
-        //suelta el tenedor izquierdo
+        // Suelta el tenedor izquierdo
         cout << "Filósofo " << id << " suelta tenedor " << izq << endl << flush;
         
         MPI_Ssend(NULL, 0, MPI_INT, izq, SOLTAR, MPI_COMM_WORLD);
 
-        //suelta el tenedor derecho
+        // Suelta el tenedor derecho
         cout << "Filósofo " << id << " suelta tenedor " << der << endl << flush;
 
         MPI_Ssend(NULL, 0, MPI_INT, der, SOLTAR, MPI_COMM_WORLD);
