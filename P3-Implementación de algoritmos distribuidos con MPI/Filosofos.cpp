@@ -92,9 +92,9 @@ int main(int argc,char** argv ){
     }
     else{
         if ((rank%2) == 0)  
-            Filosofo(rank,size); // Los pares son Filosofos 
+            Filosofo(rank,size);    // Los pares son Filosofos 
         else
-            Tenedor(rank,size);  // Los impares son Tenedores 
+            Tenedor(rank,size);     // Los impares son Tenedores 
     }
 
     MPI_Finalize();
