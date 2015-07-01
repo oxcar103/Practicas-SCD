@@ -63,7 +63,7 @@ void Tenedor(int id, int nprocesos){
 
     while(true){
         // Espera un peticion desde cualquier filosofo vecino ...
-        MPI_Recv(&buf, 1, MPI_INT, MPI_ANY_SOURCE, COGER, MPI_COMM_WORLD, &status);
+        MPI_Recv(NULL, 0, MPI_INT, MPI_ANY_SOURCE, COGER, MPI_COMM_WORLD, &status);
 
         // Recibe la peticion del filosofo ...
         filosofo = status.MPI_SOURCE;
@@ -71,7 +71,7 @@ void Tenedor(int id, int nprocesos){
         cout << "Tenedor " << id << " recibe petición de filósofo " << filosofo << endl << flush;
 
         // Espera a que el filosofo suelte el tenedor...
-        MPI_Recv(&buf, 1, MPI_INT, filosofo, SOLTAR, MPI_COMM_WORLD, &status);
+        MPI_Recv(NULL, 0, MPI_INT, filosofo, SOLTAR, MPI_COMM_WORLD, &status);
 
         cout << "Tenedor " << id << " recibe liberacion de filósofo " << filosofo << endl << flush; 
     }
@@ -88,7 +88,7 @@ int main(int argc,char** argv ){
 
     if(size != 2*NUM_FILO){
         if(rank == 0) 
-            cout << "El numero de procesos debe ser " << 2*NUM_FILO << endl << flush;
+            cout << "El número de procesos debe ser " << 2*NUM_FILO << endl << flush;
     }
     else{
         if ((rank%2) == 0)  
