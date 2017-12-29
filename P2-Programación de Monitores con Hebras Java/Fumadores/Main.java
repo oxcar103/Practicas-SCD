@@ -1,5 +1,5 @@
 public class Main{
-        public static void main(String [] args){
+    public static void main(String [] args){
         Estanco estanco = new Estanco();
         Estanquero estanquero = new Estanquero(estanco);
         Fumador[]  fumadores = new Fumador[3];
