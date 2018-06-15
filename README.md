@@ -1,6 +1,6 @@
 Practicas-SCD
 ========================
-Prácticas de Sistemas Concurrentes y Distribuidos
+Prácticas de Sistemas Concurrentes y Distribuidos (SCD)
 
 Licencia  
 ------------------------
